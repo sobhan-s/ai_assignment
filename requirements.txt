@@ -1,0 +1,27 @@
+fastapi>=0.109.2
+uvicorn[standard]>=0.27.1
+pydantic>=2.6.1
+pydantic-settings>=2.2.1
+
+# AI and Graph
+langchain>=0.1.7
+langchain-community>=0.0.20
+langchain-core>=0.1.23
+langgraph>=0.0.26
+langchain-openai>=0.0.5 # Wait, we are using ollama. But sometimes langchain-openai is useful for standard interfaces. We'll stick to community for Ollama.
+
+# Vector DB
+qdrant-client>=1.7.3
+
+# DB and Async SQL
+asyncpg>=0.29.0
+sqlalchemy>=2.0.27 # Optional if using raw asyncpg, but good for some utilities
+sqlglot>=21.4.2 # For validating SQL safely
+
+# Document Parsers
+pypdf>=4.0.1
+python-docx>=1.1.0
+beautifulsoup4>=4.12.3
+
+# Python utilities
+python-dotenv>=1.0.1
