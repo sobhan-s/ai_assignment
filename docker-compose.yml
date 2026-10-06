@@ -1,13 +1,19 @@
+version: '3.8'
+
 services:
   api:
     build: .
     ports:
       - "8000:8000"
     volumes:
-      - ./app:/code/app
-      - ./data/documents:/code/data/documents
+      - ./app:/app/app
+      - ./data:/app/data
     environment:
-      - DATABASE_URL=postgresql+asyncpg://admin:admin123@postgres:5432/genai_db
+      # API connects as the standard RW user to log queries
+      - POSTGRES_USER=genai_user
+      - POSTGRES_PASSWORD=genai_password
+      - POSTGRES_DB=genai_db
+      - POSTGRES_URL=postgresql://genai_user:genai_password@postgres:5432/genai_db
       - QDRANT_URL=http://qdrant:6333
       - OLLAMA_BASE_URL=http://ollama:11434
     depends_on:
@@ -18,66 +24,50 @@ services:
       ollama:
         condition: service_started
     networks:
-      - genai-network
+      - genai_net
 
   postgres:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: genai_db
+      - POSTGRES_USER=genai_user
+      - POSTGRES_PASSWORD=genai_password
+      - POSTGRES_DB=genai_db
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
       - ./db/init:/docker-entrypoint-initdb.d
+    networks:
+      - genai_net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d genai_db"]
+      test: ["CMD-SHELL", "pg_isready -U genai_user -d genai_db"]
       interval: 5s
       timeout: 5s
       retries: 5
-    networks:
-      - genai-network
 
   qdrant:
     image: qdrant/qdrant:latest
     ports:
       - "6333:6333"
     volumes:
-      - qdrant_storage:/qdrant/storage
+      - qdrant_data:/qdrant/storage
     networks:
-      - genai-network
+      - genai_net
 
   ollama:
     image: ollama/ollama:latest
     ports:
       - "11434:11434"
     volumes:
-      - ollama_models:/root/.ollama
+      - ollama_data:/root/.ollama
     networks:
-      - genai-network
-
-  ollama-init:
-    image: curlimages/curl:latest
-    depends_on:
-      - ollama
-    networks:
-      - genai-network
-    command: >
-      sh -c "
-      echo 'Waiting for Ollama to start...' &&
-      sleep 10 &&
-      echo 'Pulling Nomic Embeddings...' &&
-      curl -X POST http://ollama:11434/api/pull -d '{\"name\": \"nomic-embed-text\"}' &&
-      echo 'Pulling Llama 3.1 8B (this might take a while)...' &&
-      curl -X POST http://ollama:11434/api/pull -d '{\"name\": \"llama3.1:8b\"}'
-      "
-
-networks:
-  genai-network:
-    driver: bridge
+      - genai_net
 
 volumes:
-  pgdata:
-  qdrant_storage:
-  ollama_models:
+  postgres_data:
+  qdrant_data:
+  ollama_data:
+
+networks:
+  genai_net:
+    driver: bridge
