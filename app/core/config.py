@@ -1,11 +1,13 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
 
 class Settings(BaseSettings):
     """
     Strictly typed application settings loaded from environment variables.
     Fails instantly if required variables are missing or of the wrong type.
     """
+
     # Environment
     ENVIRONMENT: str = Field(default="development", description="Execution environment")
 
@@ -20,13 +22,21 @@ class Settings(BaseSettings):
     POSTGRES_URL: str = Field(..., description="PostgreSQL connection string")
 
     # Qdrant
-    QDRANT_URL: str = Field(default="http://localhost:6333", description="Qdrant vector DB URL")
-    QDRANT_COLLECTION_NAME: str = Field(default="documents", description="Qdrant collection name")
+    QDRANT_URL: str = Field(
+        default="http://localhost:6333", description="Qdrant vector DB URL"
+    )
+    QDRANT_COLLECTION_NAME: str = Field(
+        default="documents", description="Qdrant collection name"
+    )
 
     # Ollama
-    OLLAMA_BASE_URL: str = Field(default="http://localhost:11434", description="Ollama API URL")
+    OLLAMA_BASE_URL: str = Field(
+        default="http://localhost:11434", description="Ollama API URL"
+    )
     LLM_MODEL: str = Field(default="llama3", description="Model used for generation")
-    EMBEDDING_MODEL: str = Field(default="nomic-embed-text", description="Model used for embeddings")
+    EMBEDDING_MODEL: str = Field(
+        default="nomic-embed-text", description="Model used for embeddings"
+    )
 
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -35,4 +45,5 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-settings = Settings()
+
+settings = Settings()  # type: ignore[call-arg]
