@@ -1,0 +1,71 @@
+[project]
+name = "local-genai-data-assistant"
+version = "0.1.0"
+description = "A local GenAI assistant with RAG and SQL agent capabilities."
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi[standard]>=0.115.0",
+    "pydantic>=2.9.0",
+    "pydantic-settings>=2.5.2",
+    "langgraph>=0.2.14",
+    "langchain>=0.3.0",
+    "langchain-community>=0.3.0",
+    "qdrant-client>=1.11.3",
+    "asyncpg>=0.29.0",
+    "sqlalchemy>=2.0.35",
+    "sqlglot>=25.18.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.3",
+    "pytest-asyncio>=0.24.0",
+    "ruff>=0.6.8",
+    "mypy>=1.11.2",
+    "pre-commit>=3.8.0",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".venv",
+    "venv",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "C4",  # flake8-comprehensions
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+]
+ignore = []
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+
+[[tool.mypy.overrides]]
+module = ["asyncpg.*", "sqlglot.*", "qdrant_client.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-v --asyncio-mode=auto"
+testpaths = [
+    "tests",
+]
