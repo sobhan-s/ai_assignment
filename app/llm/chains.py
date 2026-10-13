@@ -7,13 +7,15 @@ from langchain_core.runnables import Runnable
 
 from app.domain.state import RouteDecision
 from app.llm.factory import get_llm
-from app.llm.prompts.condense import condense_prompt
-from app.llm.prompts.rag_answer import rag_answer_prompt
-from app.llm.prompts.router import router_prompt
-from app.llm.prompts.sql_generate import sql_generate_prompt
-from app.llm.prompts.sql_repair import sql_repair_prompt
-from app.llm.prompts.sql_summarize import sql_summarize_prompt
-from app.llm.prompts.synthesize import synthesize_prompt
+from app.prompts import (
+    condense_prompt,
+    rag_answer_prompt,
+    router_prompt,
+    sql_generate_prompt,
+    sql_repair_prompt,
+    sql_summarize_prompt,
+    synthesize_prompt,
+)
 
 
 def get_condense_chain() -> Runnable[Any, Any]:

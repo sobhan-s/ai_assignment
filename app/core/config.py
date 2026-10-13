@@ -122,7 +122,7 @@ class Settings(BaseSettings):
 
     # Legacy shims (kept for backward compat with older code)
     @property
-    def LLM_MODEL(self) -> str:
+    def LLM_MODEL(self) -> str: 
         """Resolved model name based on active provider."""
         return {
             LLMProvider.OLLAMA: self.OLLAMA_LLM_MODEL,
@@ -133,7 +133,7 @@ class Settings(BaseSettings):
         }[self.LLM_PROVIDER]
 
     @property
-    def EMBEDDING_MODEL(self) -> str:  # noqa: N802
+    def EMBEDDING_MODEL(self) -> str:
         """Resolved embedding model name based on active provider."""
         return {
             EmbeddingProvider.OLLAMA: self.OLLAMA_EMBEDDING_MODEL,
@@ -141,6 +141,24 @@ class Settings(BaseSettings):
             EmbeddingProvider.GOOGLE: self.GOOGLE_EMBEDDING_MODEL,
             EmbeddingProvider.HUGGINGFACE: self.HUGGINGFACE_EMBEDDING_MODEL,
         }[self.EMBEDDING_PROVIDER]
+
+    @property
+    def postgres_asyncpg_dsn(self) -> str:
+        """PostgreSQL DSN formatted with scheme postgresql:// for raw asyncpg.connect()."""
+        url = self.POSTGRES_URL
+        if url.startswith("postgresql+asyncpg://"):
+            return "postgresql://" + url[len("postgresql+asyncpg://") :]
+        return url
+
+    @property
+    def postgres_sqlalchemy_url(self) -> str:
+        """PostgreSQL URL formatted with scheme postgresql+asyncpg:// for SQLAlchemy async engine."""
+        url = self.POSTGRES_URL
+        if url.startswith("postgresql://"):
+            return "postgresql+asyncpg://" + url[len("postgresql://") :]
+        if url.startswith("postgres://"):
+            return "postgresql+asyncpg://" + url[len("postgres://") :]
+        return url
 
     model_config = SettingsConfigDict(
         env_file=".env",

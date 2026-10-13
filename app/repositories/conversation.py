@@ -14,7 +14,10 @@ from app.core.config import settings
 
 class ConversationRepository:
     def __init__(self, *, postgres_url: str | None = None) -> None:
-        self._url = postgres_url or settings.POSTGRES_URL
+        raw_url = postgres_url or settings.POSTGRES_URL
+        if raw_url.startswith("postgresql+asyncpg://"):
+            raw_url = "postgresql://" + raw_url[len("postgresql+asyncpg://") :]
+        self._url = raw_url
 
     async def save_message(self, thread_id: object, role: str, content: str) -> None:
         conn: asyncpg.Connection = await asyncpg.connect(self._url)

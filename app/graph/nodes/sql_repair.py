@@ -2,7 +2,7 @@
 sql_repair node
 Called when SQL validation or execution fails.
 Asks the LLM to repair the query based on the error message.
-Uses the pre-built chain from llm/chains.py (prompt lives in llm/prompts/sql_repair.py).
+Uses the pre-built chain from llm/chains.py (prompt lives in app/prompts/sql_repair.py).
 """
 
 from __future__ import annotations

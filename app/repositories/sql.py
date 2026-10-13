@@ -27,7 +27,7 @@ class SqlRepository:
 
     async def run_read_only(self, sql: str) -> SqlExecution:
         start = time.perf_counter()
-        conn: asyncpg.Connection = await asyncpg.connect(settings.POSTGRES_URL)
+        conn: asyncpg.Connection = await asyncpg.connect(settings.postgres_asyncpg_dsn)
 
         try:
             async with conn.transaction(isolation="read_committed", readonly=True):

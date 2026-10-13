@@ -1,7 +1,7 @@
 """
 rag_answer node
 Generates an answer grounded strictly in the retrieved document chunks.
-Uses the pre-built chain from llm/chains.py (prompt in llm/prompts/rag_answer.py).
+Uses the pre-built chain from llm/chains.py (prompt in app/prompts/rag_answer.py).
 """
 
 from __future__ import annotations

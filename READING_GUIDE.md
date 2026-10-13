@@ -112,10 +112,10 @@ Follow the path of an incoming message as it traverses the graph:
 
 Explore how prompts and LLM backends are cleanly separated:
 
-1. **`app/llm/factory.py`**
-   - Factory returning LangChain ChatModels and Embeddings dynamically based on environment config (`get_llm()`, `get_embeddings()`).
-2. **`app/llm/prompts/`**
-   - **Zero inline prompt rule:** All prompts live here (`condense.py`, `router.py`, `rag_answer.py`, `sql_generate.py`, `sql_repair.py`, `sql_summarize.py`, `synthesize.py`).
+1. **`app/llm/factory.py`** & **`app/llm/models/`**
+   - Factory returning LangChain ChatModels and Embeddings dynamically based on environment config (`get_llm()`, `get_embeddings()`), delegating to modular provider files in `app/llm/models/` (`ollama.py`, `openai.py`, `anthropic.py`, `groq.py`, `google.py`, `huggingface.py`).
+2. **`app/prompts/`**
+   - **Zero inline prompt rule:** All prompts live here under application (`condense.py`, `router.py`, `rag_answer.py`, `sql_generate.py`, `sql_repair.py`, `sql_summarize.py`, `synthesize.py`).
 3. **`app/llm/chains.py`**
    - Assembles LCEL (LangChain Expression Language) chains coupling prompts with LLMs.
 
