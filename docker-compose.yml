@@ -8,6 +8,8 @@ services:
     volumes:
       - ./app:/app/app
       - ./data:/app/data
+    env_file:
+      - .env
     environment:
       # API connects as the standard RW user to log queries
       - POSTGRES_USER=genai_user
@@ -62,6 +64,27 @@ services:
       - ollama_data:/root/.ollama
     networks:
       - genai_net
+
+  ollama-init:
+    image: ollama/ollama:latest
+    environment:
+      - OLLAMA_HOST=ollama:11434
+    depends_on:
+      - ollama
+    networks:
+      - genai_net
+    entrypoint: >
+      sh -c "
+      echo 'Waiting for Ollama API to be ready...';
+      while ! ollama list > /dev/null 2>&1; do
+        sleep 2;
+      done;
+      echo 'Pulling nomic-embed-text...';
+      ollama pull nomic-embed-text;
+      echo 'Pulling llama3.2...';
+      ollama pull llama3.2;
+      echo 'Models pulled successfully! You can now chat with the API.';
+      "
 
 volumes:
   postgres_data:
