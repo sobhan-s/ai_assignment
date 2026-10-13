@@ -11,7 +11,7 @@ from app.core.config import settings
 # Create async SQLAlchemy engine
 # pool_size and max_overflow help manage concurrent connections (pool concept requested by user)
 engine = create_async_engine(
-    settings.POSTGRES_URL,
+    settings.postgres_sqlalchemy_url,
     pool_size=10,
     max_overflow=20,
     echo=False,

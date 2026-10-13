@@ -2,7 +2,7 @@
 sql_answer node
 Takes the raw rows from the Postgres database and uses the LLM summarize chain
 to format them into a human-readable answer.
-Prompt lives in llm/prompts/sql_summarize.py, chain in llm/chains.py.
+Prompt lives in app/prompts/sql_summarize.py, chain in llm/chains.py.
 """
 
 from __future__ import annotations

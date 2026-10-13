@@ -4,7 +4,7 @@ The terminal merge node. For COMBINED routes, calls the LLM to weave both
 RAG and SQL answers together. For single-branch routes, it simply passes
 the existing answer through.
 
-Prompt lives in llm/prompts/synthesize.py, chain in llm/chains.py.
+Prompt lives in app/prompts/synthesize.py, chain in llm/chains.py.
 """
 
 from __future__ import annotations
