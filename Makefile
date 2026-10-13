@@ -7,53 +7,53 @@ PYTHON        := $(UV) run python
 .PHONY: help install dev up down logs lint typecheck test seed clean frontend-install frontend
 
 ## Show this help
-help: 
+help:
 	@awk 'BEGIN{FS=":.*##"; printf "\n\033[1mUsage:\033[0m make \033[36m<target>\033[0m\n\n\033[1mTargets:\033[0m\n"} \
 	     /^[a-zA-Z_-]+:.*?##/ {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 ## Install all Python dependencies (including dev extras)
-install: 
+install:
 	$(UV) sync --all-extras
 
-## Start all docker services 
-up: 
+## Start all docker services
+up:
 	docker compose up --build -d
 
 ## Stop and remove all services
-down: 
+down:
 	docker compose down -v
 
 ## Tail logs from all services
-logs: 
+logs:
 	docker compose logs -f
 
 # Development server
-dev: 
+dev:
 	$(UV) run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 ## Install frontend dependencies
-frontend-install: 
+frontend-install:
 	$(UV) pip install -r frontend/requirements.txt
 
 ## Run the Streamlit dashboard
-frontend: 
+frontend:
 	$(UV) run streamlit run frontend/app.py
 
 ## Run ruff linter + formatter check
-lint: 
+lint:
 	$(UV) run ruff check app tests
 	$(UV) run ruff format --check app tests
 
 ## Auto-fix lint issues
-lint-fix: 
+lint-fix:
 	$(UV) run ruff check --fix app tests
 	$(UV) run ruff format app tests
 
 ## Run mypy strict type checking
-typecheck: 
+typecheck:
 	$(UV) run mypy app --strict
 
-# Tests 
+# Tests
 
  ## Run all tests
 test:
@@ -64,15 +64,15 @@ test-unit:
 	$(UV) run pytest tests/unit/ -v
 
 ## Run graph/node tests
-test-graph: 
+test-graph:
 	$(UV) run pytest tests/graph/ -v
 
- ## Run integration tests 
+ ## Run integration tests
 test-integration:
 	$(UV) run pytest tests/integration/ -v
 
 ## Run API endpoint tests
-test-api: 
+test-api:
 	$(UV) run pytest tests/api/ -v
 
 ## Run tests with coverage report
@@ -92,7 +92,7 @@ seed:
 
 # Cleanup
 ## Remove Python caches and build artefacts
-clean: 
+clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null; true
 	find . -type d -name ".mypy_cache" -exec rm -rf {} + 2>/dev/null; true
 	find . -type d -name ".ruff_cache" -exec rm -rf {} + 2>/dev/null; true

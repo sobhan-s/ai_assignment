@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import time
@@ -14,9 +13,9 @@ from app.exceptions import InputTooLongError, RateLimitError
 
 # Constants
 MAX_REQUEST_BODY_BYTES: int = 50 * 1024 * 1024  # 50 MB (document uploads)
-MAX_QUESTION_LENGTH: int = 4_000  
-RATE_LIMIT_REQUESTS: int = 60  
-RATE_LIMIT_WINDOW_SECONDS: int = 60  
+MAX_QUESTION_LENGTH: int = 4_000
+RATE_LIMIT_REQUESTS: int = 60
+RATE_LIMIT_WINDOW_SECONDS: int = 60
 
 _rate_store: dict[str, list[float]] = defaultdict(list)
 

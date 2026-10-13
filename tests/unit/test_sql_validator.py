@@ -65,9 +65,9 @@ def test_sql_validator_parametrized(
     result = validator.validate(sql)
     assert result.ok == expected_ok, f"SQL: {sql!r}\nViolations: {result.violations}"
     if not expected_ok and violation_substr is not None:
-        assert any(violation_substr in v for v in result.violations), (
-            f"Expected '{violation_substr}' in violations: {result.violations}"
-        )
+        assert any(
+            violation_substr in v for v in result.violations
+        ), f"Expected '{violation_substr}' in violations: {result.violations}"
 
 
 # Non-parametrized: limit-cap behaviour

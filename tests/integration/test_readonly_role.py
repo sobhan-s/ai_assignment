@@ -56,9 +56,9 @@ def test_select_statements_are_allowed(
 ) -> None:
     """Plain SELECT queries against allowed tables should pass validation."""
     result = validator.validate(sql)
-    assert result.ok is True, (
-        f"Expected {sql!r} to be allowed. Violations: {result.violations}"
-    )
+    assert (
+        result.ok is True
+    ), f"Expected {sql!r} to be allowed. Violations: {result.violations}"
 
 
 def test_blocked_function_is_rejected(validator: SQLValidationService) -> None:

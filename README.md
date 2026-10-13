@@ -16,16 +16,16 @@ graph TD
 
     %% Main Database Paths
     sql_generate --> sql_validate{sql_validate}
-    
+
     %% Validation Loops & Circuit Breaker
     sql_validate -->|ok| sql_execute{sql_execute}
     sql_validate -->|fail <3| sql_repair[sql_repair]
-    
+
     sql_execute -->|ok| sql_answer[sql_answer]
     sql_execute -->|fail <3| sql_repair
-    
+
     sql_repair --> sql_validate
-    
+
     sql_repair -->|≥3 attempts| circuit_breaker[circuit_breaker]
 
     %% Convergence to Synthesis & End

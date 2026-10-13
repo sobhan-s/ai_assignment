@@ -73,7 +73,7 @@ class Settings(BaseSettings):
         default="nomic-embed-text", description="Ollama model used for embeddings"
     )
 
-    # OpenAI 
+    # OpenAI
     OPENAI_API_KEY: str = Field(default="", description="OpenAI API key")
     OPENAI_BASE_URL: str | None = Field(
         default=None, description="Optional custom base URL (e.g. for OpenRouter)"
@@ -122,7 +122,7 @@ class Settings(BaseSettings):
 
     # Legacy shims (kept for backward compat with older code)
     @property
-    def LLM_MODEL(self) -> str:  
+    def LLM_MODEL(self) -> str:
         """Resolved model name based on active provider."""
         return {
             LLMProvider.OLLAMA: self.OLLAMA_LLM_MODEL,
