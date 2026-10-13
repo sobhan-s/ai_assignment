@@ -1,0 +1,17 @@
+COMPANY REMOTE WORK POLICY
+Effective Date: January 1, 2026
+
+1. ELIGIBILITY
+All full-time employees who have completed their 90-day probationary period are eligible to request remote work arrangements.
+
+2. ALLOWABLE DAYS
+Employees may work remotely up to 3 days per week. Tuesdays and Thursdays are designated as "Core Collaboration Days" and all employees are expected to be in the office on these days.
+
+3. EQUIPMENT
+The company will provide a standard tech stipend of $500 for home office equipment (monitor, keyboard, ergonomic chair). Employees must use company-issued laptops for all work.
+
+4. SECURITY
+While working remotely, employees must connect to the corporate VPN at all times. Public Wi-Fi networks may only be used if connected through the VPN.
+
+5. COMMUNICATION
+Remote employees must be available on Slack and Zoom during their designated core working hours (10:00 AM to 3:00 PM in their local timezone).

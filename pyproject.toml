@@ -9,11 +9,22 @@ dependencies = [
     "pydantic-settings>=2.5.2",
     "langgraph>=0.2.14",
     "langchain>=0.3.0",
+    "langchain-core>=0.3.0",
     "langchain-community>=0.3.0",
+    "langchain-text-splitters>=0.3.0",
+    "langchain-ollama>=0.2.0",                  
+    "langchain-openai>=0.2.0",                  
+    "langchain-anthropic>=0.3.0",               
+    "langchain-groq>=0.2.0",                    
+    "langchain-google-genai>=2.0.0",            
+    "langchain-huggingface>=0.1.0",
     "qdrant-client>=1.11.3",
     "asyncpg>=0.29.0",
-    "sqlalchemy>=2.0.35",
+    "sqlalchemy[asyncio]>=2.0.35",
     "sqlglot>=25.18.0",
+    "pypdf>=5.0.0",
+    "python-docx>=1.1.0",
+    "structlog>=24.1.0",
 ]
 
 [project.optional-dependencies]
@@ -23,6 +34,8 @@ dev = [
     "ruff>=0.6.8",
     "mypy>=1.11.2",
     "pre-commit>=3.8.0",
+    # Type stubs
+    "types-docutils",
 ]
 
 [tool.ruff]
@@ -45,8 +58,23 @@ select = [
     "C4",  # flake8-comprehensions
     "B",   # flake8-bugbear
     "UP",  # pyupgrade
+    "N",   # pep8-naming
+    "ANN", # flake8-annotations
 ]
-ignore = []
+ignore = [
+    "E501",  # Line length is handled by ruff format; multiline strings/prompts preserved
+    "ANN401",  # Dynamically typed expressions (typing.Any) in flexible interfaces
+    "B008",  # Do not perform function call in argument defaults (standard in FastAPI Depends/File)
+    "N818",  # Exception name should be named with an Error suffix
+    "ANN204",  # Missing return type annotation for special method __init__
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+    "ANN",   # Type annotations not mandatory on test methods and fixtures
+    "N806",  # Variable names in tests
+    "C408",  # Unnecessary dict calls in test helpers
+]
 
 [tool.mypy]
 python_version = "3.11"
@@ -60,7 +88,16 @@ disallow_untyped_decorators = true
 no_implicit_optional = true
 
 [[tool.mypy.overrides]]
-module = ["asyncpg.*", "sqlglot.*", "qdrant_client.*"]
+module = [
+    "asyncpg.*",
+    "sqlglot.*",
+    "qdrant_client.*",
+    "structlog.*",
+    "langchain_huggingface.*",
+    "langchain_groq.*",
+    "langchain_anthropic.*",
+    "langchain_google_genai.*",
+]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
